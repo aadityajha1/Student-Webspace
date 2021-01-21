@@ -1,21 +1,42 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Student_Webspace.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Student_Webspace.Service.UserService
 {
     public class UserService : IUserService
     {
+        private string Key = "123b123hj1234JSDGHUI1234123BJASDFJASDB234KJDKFNSADFKJB234QBQ34BQKY93";
+        public string Decrypt(string base64EncodedString)
+        {
+            if (string.IsNullOrEmpty(base64EncodedString)) return "";
+            var base64Bytes = Convert.FromBase64String(base64EncodedString);
+            var result = Encoding.UTF8.GetString(base64Bytes);
+            result = result.Substring(0, result.Length - Key.Length);
+            return result;
+
+        }
+
+        public string Encrypt(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return "";
+            text += Key;
+            var textBytes = Encoding.UTF8.GetBytes(text);
+            return Convert.ToBase64String(textBytes);
+        }
         private readonly ApplicationDbContext _db;
 
+        
         public UserService(ApplicationDbContext db)
         {
             _db = db;
         }
-
+        
         public async Task<ServiceResponse<User>> AddNewUser(User user)
         {
             
@@ -23,6 +44,7 @@ namespace Student_Webspace.Service.UserService
             //var course = _db.Courses.FirstOrDefault(c => c.Id == Int32.Parse(user.CourseId) );
             //user.Course = course;
             user.Enrolled_date = DateTime.Now.ToString();
+            user.Password = Encrypt(user.Password);
             await _db.Users.AddAsync(user);
             await _db.SaveChangesAsync();
             serviceResponse.Data = user;
