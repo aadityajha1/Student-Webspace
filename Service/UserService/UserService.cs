@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Student_Webspace.Dtos.Users;
 using Student_Webspace.Models;
 
 using System;
@@ -69,6 +70,12 @@ namespace Student_Webspace.Service.UserService
         {
             ServiceResponse<User> serviceResponse = new ServiceResponse<User>();
             var user = _db.Users.FirstOrDefault(u => u.Id == id);
+            if (user == null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "User Not Found";
+                return serviceResponse;
+            }
             serviceResponse.Data = user;
             serviceResponse.Message = "User:" + user.Fullname + " deleted successfully";
             _db.Users.Remove(user);
@@ -90,7 +97,59 @@ namespace Student_Webspace.Service.UserService
         public async Task<ServiceResponse<User>> GetUserById(int id)
         {
             ServiceResponse<User> serviceResponse = new ServiceResponse<User>();
-            serviceResponse.Data =  _db.Users.FirstOrDefault(c => c.Id == id);
+            var user =  _db.Users.FirstOrDefault(c => c.Id == id);
+            if (user == null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "User Not Found";
+                return serviceResponse;
+            }
+            serviceResponse.Data = user;
+            serviceResponse.Message = "User Found Successfully";
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<User>> UpdateUserById(int id, UpdateUserDto updatedUser)
+        {
+            ServiceResponse<User> serviceResponse = new ServiceResponse<User>();
+            User user = await _db.Users.FindAsync(id);
+            if(user == null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "User not found";
+                return serviceResponse;
+            }
+            user.Enrolled_date = user.Enrolled_date;
+            user.Email = user.Email;
+            user.Password = user.Password;
+            if(updatedUser.Fullname != null)
+            {
+                user.Fullname = updatedUser.Fullname;
+            }
+            
+            if(updatedUser.Gender != null)
+            {
+                user.Gender = updatedUser.Gender;
+            }
+            
+
+            if (updatedUser.Image != null)
+            {
+                user.Image = updatedUser.Image;
+            }
+            
+            
+            
+            
+            if(updatedUser.User_role != null)
+            {
+                user.User_role = updatedUser.User_role;
+            }
+            
+            
+            
+            await _db.SaveChangesAsync();
+            serviceResponse.Data = user;
             return serviceResponse;
         }
     }

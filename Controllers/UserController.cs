@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Student_Webspace.Dtos.Users;
 using Student_Webspace.Models;
 using Student_Webspace.Service.UserService;
 using System;
@@ -45,10 +46,15 @@ namespace Student_Webspace.Controllers
             
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateUsers()
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUserById(int id, UpdateUserDto user)
         {
-            return NotFound("404. Page Not Found!");
+            var response = await _userService.UpdateUserById(id, user);
+            if (response.Success == false)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
 
         [HttpDelete]
@@ -60,13 +66,26 @@ namespace Student_Webspace.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
-            return Ok(await _userService.GetUserById(id));
+            var response = await _userService.GetUserById(id);
+            if(response.Success == false)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUserById(int id)
         {
-            return Ok(await _userService.DeleteUserById(id));
+            var response = await _userService.DeleteUserById(id);
+            if (response.Success == true)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return NotFound(response);
+            }
         }
     }
 }

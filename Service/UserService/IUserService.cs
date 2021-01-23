@@ -1,4 +1,5 @@
-﻿using Student_Webspace.Models;
+﻿using Student_Webspace.Dtos.Users;
+using Student_Webspace.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,7 @@ namespace Student_Webspace.Service.UserService
         Task<ServiceResponse<List<User>>> DeleteAll();
 
         Task<ServiceResponse<User>> GetUserById(int id);
+
+        Task<ServiceResponse<User>> UpdateUserById(int id, UpdateUserDto updateduser);
     }
 }
