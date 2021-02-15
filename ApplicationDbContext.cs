@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Student_Webspace.Authentication;
 using Student_Webspace.Models;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Student_Webspace
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -19,7 +20,7 @@ namespace Student_Webspace
             base.OnModelCreating(builder);
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<UserDetails> UserDetails { get; set; }
         public DbSet<Course> Courses{ get; set; }
         public DbSet<Intake> Intakes{ get; set; }
     }

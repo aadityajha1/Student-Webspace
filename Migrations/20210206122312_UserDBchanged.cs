@@ -3,22 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Student_Webspace.Migrations
 {
-    public partial class IdentityDbContextAdded : Migration
+    public partial class UserDBchanged : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Users_Courses_CourseId",
-                table: "Users");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Users_CourseId",
-                table: "Users");
-
-            migrationBuilder.DropColumn(
-                name: "CourseId",
-                table: "Users");
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -56,6 +44,19 @@ namespace Student_Webspace.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Courses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Courses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -164,6 +165,53 @@ namespace Student_Webspace.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Intakes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CourseId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Intakes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Intakes_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Fullname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IntakeId = table.Column<int>(type: "int", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    User_role = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Enrolled_date = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Last_loggedin_date = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserDetails_Intakes_IntakeId",
+                        column: x => x.IntakeId,
+                        principalTable: "Intakes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -202,6 +250,16 @@ namespace Student_Webspace.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Intakes_CourseId",
+                table: "Intakes",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserDetails_IntakeId",
+                table: "UserDetails",
+                column: "IntakeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -222,29 +280,19 @@ namespace Student_Webspace.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "UserDetails");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
-            migrationBuilder.AddColumn<int>(
-                name: "CourseId",
-                table: "Users",
-                type: "int",
-                nullable: true);
+            migrationBuilder.DropTable(
+                name: "Intakes");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_CourseId",
-                table: "Users",
-                column: "CourseId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Users_Courses_CourseId",
-                table: "Users",
-                column: "CourseId",
-                principalTable: "Courses",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+            migrationBuilder.DropTable(
+                name: "Courses");
         }
     }
 }

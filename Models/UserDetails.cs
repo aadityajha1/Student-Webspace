@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Student_Webspace.Models
 {
-    public class User
+    public class UserDetails
     {
         [Key]
         public int Id { get; set; }
@@ -21,12 +21,12 @@ namespace Student_Webspace.Models
         [Required]
         public string Password { get; set; }
         public string Image{ get; set; }
-        [Required]
+        
         public string User_role{ get; set; }
         public string Enrolled_date { get; set; }
         public string Last_loggedin_date{ get; set; }
-       
 
+        public Task<Results> Results { get; set; }
 
     }
 }

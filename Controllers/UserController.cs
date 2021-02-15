@@ -29,7 +29,7 @@ namespace Student_Webspace.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewUser(User user)
+        public async Task<IActionResult> AddNewUser(UserDetails user)
         {
             //CookieOptions cookieOptions = new CookieOptions();
             //cookieOptions.Expires = DateTime.Now.AddDays(1);

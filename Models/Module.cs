@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace Student_Webspace.Models
 {
-    public class Intake
-    {   
+    public class Module
+    {
         [Key]
-        public int Id { get; set; }
-        public int CourseId { get; set; }
-        public Course Course{ get; set; }
-        [Required]
+        public int Id{ get; set; }
+        [Required(ErrorMessage = "Module name is required")]
         public string Name { get; set; }
-        public List<UserDetails> Users { get; set; }
+        public string CourseId { get; set; }
+        public Course Course{ get; set; }
+        public string Semester{ get; set; }
+
         public List<Assignment> Assignments { get; set; }
         public List<Results> Results { get; set; }
     }

@@ -16,5 +16,6 @@ namespace Student_Webspace.Models
 
        
         public List<Intake> Intakes { get; set; }
+        public List<Module> Modules{ get; set; }
     }
 }

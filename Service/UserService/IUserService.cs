@@ -9,15 +9,15 @@ namespace Student_Webspace.Service.UserService
 {
     public interface IUserService
     {
-        Task<ServiceResponse<List<User>>> GetAllUsers();
+        Task<ServiceResponse<List<UserDetails>>> GetAllUsers();
 
-        Task<ServiceResponse<User>> AddNewUser(User newUser);
-        Task<ServiceResponse<User>> DeleteUserById(int id);
+        Task<ServiceResponse<UserDetails>> AddNewUser(UserDetails newUser);
+        Task<ServiceResponse<UserDetails>> DeleteUserById(int id);
 
-        Task<ServiceResponse<List<User>>> DeleteAll();
+        Task<ServiceResponse<List<UserDetails>>> DeleteAll();
 
-        Task<ServiceResponse<User>> GetUserById(int id);
+        Task<ServiceResponse<UserDetails>> GetUserById(int id);
 
-        Task<ServiceResponse<User>> UpdateUserById(int id, UpdateUserDto updateduser);
+        Task<ServiceResponse<UserDetails>> UpdateUserById(int id, UpdateUserDto updateduser);
     }
 }

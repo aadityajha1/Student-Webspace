@@ -10,8 +10,8 @@ using Student_Webspace;
 namespace Student_Webspace.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210206092237_IdentityDbContextAdded")]
-    partial class IdentityDbContextAdded
+    [Migration("20210206123311_UserDbSchemaChanged1")]
+    partial class UserDbSchemaChanged1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -254,7 +254,7 @@ namespace Student_Webspace.Migrations
                     b.ToTable("Intakes");
                 });
 
-            modelBuilder.Entity("Student_Webspace.Models.User", b =>
+            modelBuilder.Entity("Student_Webspace.Models.UserDetails", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -289,14 +289,13 @@ namespace Student_Webspace.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("User_role")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IntakeId");
 
-                    b.ToTable("Users");
+                    b.ToTable("UserDetails");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -361,7 +360,7 @@ namespace Student_Webspace.Migrations
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("Student_Webspace.Models.User", b =>
+            modelBuilder.Entity("Student_Webspace.Models.UserDetails", b =>
                 {
                     b.HasOne("Student_Webspace.Models.Intake", null)
                         .WithMany("Users")

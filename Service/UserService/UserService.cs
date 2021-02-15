@@ -38,15 +38,15 @@ namespace Student_Webspace.Service.UserService
             _db = db;
         }
         
-        public async Task<ServiceResponse<User>> AddNewUser(User user)
+        public async Task<ServiceResponse<UserDetails>> AddNewUser(UserDetails user)
         {
             
-            ServiceResponse<User> serviceResponse = new ServiceResponse<User>();
+            ServiceResponse<UserDetails> serviceResponse = new ServiceResponse<UserDetails>();
             //var course = _db.Courses.FirstOrDefault(c => c.Id == Int32.Parse(user.CourseId) );
             //user.Course = course;
             user.Enrolled_date = DateTime.Now.ToString();
             user.Password = Encrypt(user.Password);
-            await _db.Users.AddAsync(user);
+            await _db.UserDetails.AddAsync(user);
             await _db.SaveChangesAsync();
             serviceResponse.Data = user;
             serviceResponse.Message = "User Added Successfully!!";
@@ -54,10 +54,10 @@ namespace Student_Webspace.Service.UserService
 
         }
 
-        public async Task<ServiceResponse<List<User>>> DeleteAll()
+        public async Task<ServiceResponse<List<UserDetails>>> DeleteAll()
         {   
-            ServiceResponse<List<User>> serviceResponse = new ServiceResponse<List<User>>();
-            serviceResponse.Data = await _db.Users.ToListAsync();
+            ServiceResponse<List<UserDetails>> serviceResponse = new ServiceResponse<List<UserDetails>>();
+            serviceResponse.Data = await _db.UserDetails.ToListAsync();
             serviceResponse.Message = "Deleted all Users successfully!";
             var users = _db.Users;
             _db.Users.RemoveRange(users);
@@ -66,10 +66,10 @@ namespace Student_Webspace.Service.UserService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<User>> DeleteUserById(int id)
+        public async Task<ServiceResponse<UserDetails>> DeleteUserById(int id)
         {
-            ServiceResponse<User> serviceResponse = new ServiceResponse<User>();
-            var user = _db.Users.FirstOrDefault(u => u.Id == id);
+            ServiceResponse<UserDetails> serviceResponse = new ServiceResponse<UserDetails>();
+            var user = await _db.UserDetails.FindAsync(id);
             if (user == null)
             {
                 serviceResponse.Success = false;
@@ -78,7 +78,7 @@ namespace Student_Webspace.Service.UserService
             }
             serviceResponse.Data = user;
             serviceResponse.Message = "User:" + user.Fullname + " deleted successfully";
-            _db.Users.Remove(user);
+            _db.UserDetails.Remove(user);
             await _db.SaveChangesAsync();
 
            
@@ -86,18 +86,18 @@ namespace Student_Webspace.Service.UserService
 
         }
         
-        public async Task<ServiceResponse<List<User>>> GetAllUsers()
+        public async Task<ServiceResponse<List<UserDetails>>> GetAllUsers()
         {
-            ServiceResponse<List<User>> serviceResponse = new ServiceResponse<List<User>>();
-            serviceResponse.Data =  _db.Users.ToList();
+            ServiceResponse<List<UserDetails>> serviceResponse = new ServiceResponse<List<UserDetails>>();
+            serviceResponse.Data =  _db.UserDetails.ToList();
             serviceResponse.Message = "Users fetched from database";
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<User>> GetUserById(int id)
+        public async Task<ServiceResponse<UserDetails>> GetUserById(int id)
         {
-            ServiceResponse<User> serviceResponse = new ServiceResponse<User>();
-            var user =  _db.Users.FirstOrDefault(c => c.Id == id);
+            ServiceResponse<UserDetails> serviceResponse = new ServiceResponse<UserDetails>();
+            var user = await _db.UserDetails.FindAsync(id);
             if (user == null)
             {
                 serviceResponse.Success = false;
@@ -109,10 +109,10 @@ namespace Student_Webspace.Service.UserService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<User>> UpdateUserById(int id, UpdateUserDto updatedUser)
+        public async Task<ServiceResponse<UserDetails>> UpdateUserById(int id, UpdateUserDto updatedUser)
         {
-            ServiceResponse<User> serviceResponse = new ServiceResponse<User>();
-            User user = await _db.Users.FindAsync(id);
+            ServiceResponse<UserDetails> serviceResponse = new ServiceResponse<UserDetails>();
+            UserDetails user = await _db.UserDetails.FindAsync(id);
             if(user == null)
             {
                 serviceResponse.Success = false;

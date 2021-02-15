@@ -16,5 +16,6 @@ namespace Student_Webspace.Authentication
 
         [Required(ErrorMessage = "Password is required")]
         public string Password{ get; set; }
+        
     }
 }
