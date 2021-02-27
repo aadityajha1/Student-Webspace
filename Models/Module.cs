@@ -12,11 +12,14 @@ namespace Student_Webspace.Models
         public int Id{ get; set; }
         [Required(ErrorMessage = "Module name is required")]
         public string Name { get; set; }
-        public string CourseId { get; set; }
+        public int CourseId { get; set; }
         public Course Course{ get; set; }
+        public int IntakeId { get; set; }
+        public Intake Intake{ get; set; }
         public string Semester{ get; set; }
 
-        public List<Assignment> Assignments { get; set; }
-        public List<Results> Results { get; set; }
+        public Assignment Assignment { get; set; }
+        public List<Result> Results { get; set; }
+        public List<Notes> Notes { get; set; }
     }
 }

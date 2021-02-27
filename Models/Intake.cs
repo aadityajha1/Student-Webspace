@@ -16,6 +16,7 @@ namespace Student_Webspace.Models
         public string Name { get; set; }
         public List<UserDetails> Users { get; set; }
         public List<Assignment> Assignments { get; set; }
-        public List<Results> Results { get; set; }
+        public List<Module> Modules { get; set; }
+
     }
 }

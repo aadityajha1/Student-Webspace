@@ -7,18 +7,14 @@ using System.Threading.Tasks;
 
 namespace Student_Webspace.Models
 {
-    public class Results
+    public class Result
     {
         [Key]
         public int Id { get; set; }
         [Required(ErrorMessage = "User Id is required")]
-        [ForeignKey("UserDetails")]
+        
         public int UserId { get; set; }
         public UserDetails User{ get; set; }
-        [ForeignKey("Intake")]
-        public int IntakeId { get; set; }
-        public Intake Intake{ get; set; }
-        
         public int ModuleId { get; set; }
         public Module Module { get; set; }
         [Required(ErrorMessage = "grade is required")]

@@ -1,18 +1,22 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Student_Webspace.Authentication;
 using Student_Webspace.Service.CourseService;
 
 using Student_Webspace.Service.IntakeService;
+using Student_Webspace.Service.ModuleService;
 using Student_Webspace.Service.UserService;
+using System.IO;
 using System.Text;
 
 namespace Student_Webspace
@@ -65,7 +69,8 @@ namespace Student_Webspace
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<IIntakeService, IntakeService>();
-            
+            services.AddScoped<IModuleService, ModuleService>();
+
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
@@ -88,6 +93,12 @@ namespace Student_Webspace
             }
 
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Files")),
+                RequestPath = new PathString("/Files")
+            });
+
             app.UseSpaStaticFiles();
 
             app.UseRouting();

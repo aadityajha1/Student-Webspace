@@ -13,6 +13,7 @@ namespace Student_Webspace.Models
         public int UserId{ get; set; }
         public UserDetails User { get; set; }
         public int AssignmentId { get; set; }
+        public int File { get; set; }
         public Assignment Assignment { get; set; }
     }
 }

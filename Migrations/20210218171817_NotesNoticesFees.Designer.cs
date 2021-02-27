@@ -10,8 +10,8 @@ using Student_Webspace;
 namespace Student_Webspace.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210206125936_ApplicationUserSchemaUpdate")]
-    partial class ApplicationUserSchemaUpdate
+    [Migration("20210218171817_NotesNoticesFees")]
+    partial class NotesNoticesFees
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -217,6 +217,33 @@ namespace Student_Webspace.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Student_Webspace.Models.Assignment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Deadline")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IntakeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IntakeId");
+
+                    b.HasIndex("ModuleId")
+                        .IsUnique();
+
+                    b.ToTable("Assignments");
+                });
+
             modelBuilder.Entity("Student_Webspace.Models.Course", b =>
                 {
                     b.Property<int>("Id")
@@ -231,6 +258,33 @@ namespace Student_Webspace.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.Fees", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("LastPaid")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TotalPaid")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalPayable")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Fees");
                 });
 
             modelBuilder.Entity("Student_Webspace.Models.Intake", b =>
@@ -252,6 +306,127 @@ namespace Student_Webspace.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("Intakes");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.Module", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Semester")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("Modules");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.Notes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModuleId");
+
+                    b.ToTable("Notes");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.Notices", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SubTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Notices");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.Result", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Grade")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PublishDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModuleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Results");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.SubmittedAssignment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("AssignmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignmentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SubmittedAssignments");
                 });
 
             modelBuilder.Entity("Student_Webspace.Models.UserDetails", b =>
@@ -349,6 +524,36 @@ namespace Student_Webspace.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Student_Webspace.Models.Assignment", b =>
+                {
+                    b.HasOne("Student_Webspace.Models.Intake", "Intake")
+                        .WithMany("Assignments")
+                        .HasForeignKey("IntakeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Student_Webspace.Models.Module", "Module")
+                        .WithOne("Assignment")
+                        .HasForeignKey("Student_Webspace.Models.Assignment", "ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Intake");
+
+                    b.Navigation("Module");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.Fees", b =>
+                {
+                    b.HasOne("Student_Webspace.Models.UserDetails", "User")
+                        .WithOne("Fees")
+                        .HasForeignKey("Student_Webspace.Models.Fees", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Student_Webspace.Models.Intake", b =>
                 {
                     b.HasOne("Student_Webspace.Models.Course", "Course")
@@ -360,6 +565,66 @@ namespace Student_Webspace.Migrations
                     b.Navigation("Course");
                 });
 
+            modelBuilder.Entity("Student_Webspace.Models.Module", b =>
+                {
+                    b.HasOne("Student_Webspace.Models.Course", "Course")
+                        .WithMany("Modules")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.Notes", b =>
+                {
+                    b.HasOne("Student_Webspace.Models.Module", "Module")
+                        .WithMany("Notes")
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Module");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.Result", b =>
+                {
+                    b.HasOne("Student_Webspace.Models.Module", "Module")
+                        .WithMany("Results")
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Student_Webspace.Models.UserDetails", "User")
+                        .WithMany("Results")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Module");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.SubmittedAssignment", b =>
+                {
+                    b.HasOne("Student_Webspace.Models.Assignment", "Assignment")
+                        .WithMany("SubmittedAssignments")
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Student_Webspace.Models.UserDetails", "User")
+                        .WithMany("SubmittedAssignments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Assignment");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Student_Webspace.Models.UserDetails", b =>
                 {
                     b.HasOne("Student_Webspace.Models.Intake", null)
@@ -369,14 +634,41 @@ namespace Student_Webspace.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Student_Webspace.Models.Assignment", b =>
+                {
+                    b.Navigation("SubmittedAssignments");
+                });
+
             modelBuilder.Entity("Student_Webspace.Models.Course", b =>
                 {
                     b.Navigation("Intakes");
+
+                    b.Navigation("Modules");
                 });
 
             modelBuilder.Entity("Student_Webspace.Models.Intake", b =>
                 {
+                    b.Navigation("Assignments");
+
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.Module", b =>
+                {
+                    b.Navigation("Assignment");
+
+                    b.Navigation("Notes");
+
+                    b.Navigation("Results");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.UserDetails", b =>
+                {
+                    b.Navigation("Fees");
+
+                    b.Navigation("Results");
+
+                    b.Navigation("SubmittedAssignments");
                 });
 #pragma warning restore 612, 618
         }

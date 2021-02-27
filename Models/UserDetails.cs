@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -26,7 +27,9 @@ namespace Student_Webspace.Models
         public string Enrolled_date { get; set; }
         public string Last_loggedin_date{ get; set; }
 
-        public Task<Results> Results { get; set; }
+        public List<Result> Results { get; set; }
+        public List<SubmittedAssignment> SubmittedAssignments { get; set; }
+        public Fees Fees { get; set; }
 
     }
 }

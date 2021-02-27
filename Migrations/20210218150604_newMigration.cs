@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Student_Webspace.Migrations
 {
-    public partial class UserDBchanged : Migration
+    public partial class newMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -186,6 +186,28 @@ namespace Student_Webspace.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Modules",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CourseId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CourseId1 = table.Column<int>(type: "int", nullable: true),
+                    Semester = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Modules", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Modules_Courses_CourseId1",
+                        column: x => x.CourseId1,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserDetails",
                 columns: table => new
                 {
@@ -197,7 +219,7 @@ namespace Student_Webspace.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    User_role = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    User_role = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Enrolled_date = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Last_loggedin_date = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -210,6 +232,87 @@ namespace Student_Webspace.Migrations
                         principalTable: "Intakes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Assignments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IntakeId = table.Column<int>(type: "int", nullable: false),
+                    ModuleId = table.Column<int>(type: "int", nullable: false),
+                    Deadline = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Assignments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Assignments_Intakes_IntakeId",
+                        column: x => x.IntakeId,
+                        principalTable: "Intakes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_Assignments_Modules_ModuleId",
+                        column: x => x.ModuleId,
+                        principalTable: "Modules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Results",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    ModuleId = table.Column<int>(type: "int", nullable: false),
+                    Grade = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PublishDate = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Results", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Results_Modules_ModuleId",
+                        column: x => x.ModuleId,
+                        principalTable: "Modules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_Results_UserDetails_UserId",
+                        column: x => x.UserId,
+                        principalTable: "UserDetails",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SubmittedAssignments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    AssignmentId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubmittedAssignments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SubmittedAssignments_Assignments_AssignmentId",
+                        column: x => x.AssignmentId,
+                        principalTable: "Assignments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_SubmittedAssignments_UserDetails_UserId",
+                        column: x => x.UserId,
+                        principalTable: "UserDetails",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(
@@ -252,9 +355,45 @@ namespace Student_Webspace.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Assignments_IntakeId",
+                table: "Assignments",
+                column: "IntakeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Assignments_ModuleId",
+                table: "Assignments",
+                column: "ModuleId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Intakes_CourseId",
                 table: "Intakes",
                 column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Modules_CourseId1",
+                table: "Modules",
+                column: "CourseId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Results_ModuleId",
+                table: "Results",
+                column: "ModuleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Results_UserId",
+                table: "Results",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubmittedAssignments_AssignmentId",
+                table: "SubmittedAssignments",
+                column: "AssignmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubmittedAssignments_UserId",
+                table: "SubmittedAssignments",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserDetails_IntakeId",
@@ -280,13 +419,25 @@ namespace Student_Webspace.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "UserDetails");
+                name: "Results");
+
+            migrationBuilder.DropTable(
+                name: "SubmittedAssignments");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Assignments");
+
+            migrationBuilder.DropTable(
+                name: "UserDetails");
+
+            migrationBuilder.DropTable(
+                name: "Modules");
 
             migrationBuilder.DropTable(
                 name: "Intakes");

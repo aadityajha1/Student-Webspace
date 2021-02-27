@@ -10,8 +10,8 @@ using Student_Webspace;
 namespace Student_Webspace.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210206123311_UserDbSchemaChanged1")]
-    partial class UserDbSchemaChanged1
+    [Migration("20210218150604_newMigration")]
+    partial class newMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -70,71 +70,6 @@ namespace Student_Webspace.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -217,6 +152,98 @@ namespace Student_Webspace.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Student_Webspace.Authentication.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.Assignment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Deadline")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IntakeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IntakeId");
+
+                    b.HasIndex("ModuleId")
+                        .IsUnique();
+
+                    b.ToTable("Assignments");
+                });
+
             modelBuilder.Entity("Student_Webspace.Models.Course", b =>
                 {
                     b.Property<int>("Id")
@@ -252,6 +279,85 @@ namespace Student_Webspace.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("Intakes");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.Module", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CourseId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CourseId1")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Semester")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId1");
+
+                    b.ToTable("Modules");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.Result", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Grade")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PublishDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModuleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Results");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.SubmittedAssignment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("AssignmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignmentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SubmittedAssignments");
                 });
 
             modelBuilder.Entity("Student_Webspace.Models.UserDetails", b =>
@@ -309,7 +415,7 @@ namespace Student_Webspace.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Student_Webspace.Authentication.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -318,7 +424,7 @@ namespace Student_Webspace.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Student_Webspace.Authentication.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -333,7 +439,7 @@ namespace Student_Webspace.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Student_Webspace.Authentication.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -342,11 +448,30 @@ namespace Student_Webspace.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Student_Webspace.Authentication.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.Assignment", b =>
+                {
+                    b.HasOne("Student_Webspace.Models.Intake", "Intake")
+                        .WithMany("Assignments")
+                        .HasForeignKey("IntakeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Student_Webspace.Models.Module", "Module")
+                        .WithOne("Assignment")
+                        .HasForeignKey("Student_Webspace.Models.Assignment", "ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Intake");
+
+                    b.Navigation("Module");
                 });
 
             modelBuilder.Entity("Student_Webspace.Models.Intake", b =>
@@ -360,6 +485,53 @@ namespace Student_Webspace.Migrations
                     b.Navigation("Course");
                 });
 
+            modelBuilder.Entity("Student_Webspace.Models.Module", b =>
+                {
+                    b.HasOne("Student_Webspace.Models.Course", "Course")
+                        .WithMany("Modules")
+                        .HasForeignKey("CourseId1");
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.Result", b =>
+                {
+                    b.HasOne("Student_Webspace.Models.Module", "Module")
+                        .WithMany("Results")
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Student_Webspace.Models.UserDetails", "User")
+                        .WithMany("Results")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Module");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.SubmittedAssignment", b =>
+                {
+                    b.HasOne("Student_Webspace.Models.Assignment", "Assignment")
+                        .WithMany("SubmittedAssignments")
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Student_Webspace.Models.UserDetails", "User")
+                        .WithMany("SubmittedAssignments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Assignment");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Student_Webspace.Models.UserDetails", b =>
                 {
                     b.HasOne("Student_Webspace.Models.Intake", null)
@@ -369,14 +541,37 @@ namespace Student_Webspace.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Student_Webspace.Models.Assignment", b =>
+                {
+                    b.Navigation("SubmittedAssignments");
+                });
+
             modelBuilder.Entity("Student_Webspace.Models.Course", b =>
                 {
                     b.Navigation("Intakes");
+
+                    b.Navigation("Modules");
                 });
 
             modelBuilder.Entity("Student_Webspace.Models.Intake", b =>
                 {
+                    b.Navigation("Assignments");
+
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.Module", b =>
+                {
+                    b.Navigation("Assignment");
+
+                    b.Navigation("Results");
+                });
+
+            modelBuilder.Entity("Student_Webspace.Models.UserDetails", b =>
+                {
+                    b.Navigation("Results");
+
+                    b.Navigation("SubmittedAssignments");
                 });
 #pragma warning restore 612, 618
         }

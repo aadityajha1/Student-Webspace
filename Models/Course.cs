@@ -10,11 +10,8 @@ namespace Student_Webspace.Models
     {
         [Key]
         public int Id{ get; set; }
-
         [Required]
         public string Name{ get; set; }
-
-       
         public List<Intake> Intakes { get; set; }
         public List<Module> Modules{ get; set; }
     }

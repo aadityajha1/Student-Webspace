@@ -1,0 +1,8 @@
+export const LOGIN = "LOGIN";
+export const LOGIN_FAILED = "LOGIN_FAILED";
+export const LOGIN_LOADING = "LOGIN_LOADING";
+export const REGISTER_ADMIN = "REGISTER_ADMIN";
+export const REGISTER_STUDENT = "REGISTER_STUDENT";
+export const REGISTER_ACCOUNT = "REGISTER_ACCOUNT";
+export const GET_USERS = "GET_USERS";
+export const USERS_FAILED = "USERS_FAILED";

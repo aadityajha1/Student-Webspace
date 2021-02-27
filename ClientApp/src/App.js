@@ -1,19 +1,34 @@
-import React, { Component } from 'react';
-import { Route } from 'react-router';
-import { Layout } from './components/Layout';
-import { Home } from './components/Home';
-import Dashboard from './components/Dashboard/Dashboard';
-import './custom.css'
+import React, { Component } from "react";
+import { Route, Switch, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { Home } from "./components/Home";
+import Dashboard from "./components/Dashboard/Dashboard";
+import { Login, Navbar, RegisterUser } from "./components/index";
+import "./custom.css";
 
-export default class App extends Component {
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+  };
+};
+
+const mapdispatchToProps = (dispatch) => ({});
+
+class App extends Component {
   static displayName = App.name;
 
-  render () {
+  render() {
     return (
-      <Layout>
-            <Route exact path='/' component={Home} />
-            <Route exact path='/dashboard' component={Dashboard} />
-      </Layout>
+      <>
+        <Navbar />
+        <Switch location={this.props.location}>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/user/dashboard" component={Dashboard} />
+          <Route exact path="/user/login" component={Login} />
+          <Route exact path="/user/register" component={RegisterUser} />
+        </Switch>
+      </>
     );
   }
 }
+export default withRouter(connect(mapStateToProps, mapdispatchToProps)(App));

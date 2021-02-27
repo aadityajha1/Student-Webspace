@@ -8,11 +8,15 @@ namespace Student_Webspace.Service.ModuleService
 {
     public interface IModuleService
     {
-        Task<ServiceResponse<List<Module>>> GetModulesByIntake(int intakeId);
+        Task<ServiceResponse<List<Module>>> GetModulesByCourseId(int courseId);
+        
+        Task<ServiceResponse<List<Module>>> GetAllModules();
 
         Task<ServiceResponse<Module>> CreateModule(Module module);
-        Task<ServiceResponse<Module>> GetModuleById(Module module);
+        Task<ServiceResponse<Module>> GetModuleById(int id);
 
-        Task<ServiceResponse<Module>> EditModuleById(Module module);
+        Task<ServiceResponse<Module>> EditModuleById(int id, Module module);
+
+        Task<ServiceResponse<Module>> DeleteModuleById(int id);
     }
 }
