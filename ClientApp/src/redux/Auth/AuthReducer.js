@@ -3,8 +3,8 @@ import * as ActionTypes from "../actionTypes";
 export const Auth = (
   state = {
     user: null,
-    isLoading: true,
-    success: true,
+    isLoading: false,
+    success: false,
     token: localStorage.getItem("token"),
   },
   action

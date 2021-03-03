@@ -1,18 +1,35 @@
 import React, { Component } from "react";
-import { Route, Switch, withRouter, useLocation } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  withRouter,
+  useLocation,
+  Redirect,
+} from "react-router-dom";
 import { connect } from "react-redux";
 import { Home } from "./components/Home";
 import Dashboard from "./components/Dashboard/Dashboard";
-import { Login, Navbar, RegisterUser } from "./components/index";
+import {
+  Login,
+  Navbar,
+  RegisterUser,
+  AddModule,
+  Modules,
+} from "./components/index";
 import NavMenu from "./components/NavMenu";
+// import
 import "./custom.css";
 import { login, registerStudent, getUser } from "./redux/Auth/authActions";
 import { fetchIntake } from "./redux/Intake/intakeActions";
+import { fetchModules, addmodule } from "./redux/Module/moduleActions";
+import { fetchCourses } from "./redux/Course/courseActions";
 
 const mapStateToProps = (state) => {
   return {
     auth: state.auth,
     intake: state.intake,
+    module: state.module,
+    course: state.course,
   };
 };
 
@@ -40,6 +57,9 @@ const mapdispatchToProps = (dispatch) => ({
     ),
   fetchIntake: () => dispatch(fetchIntake()),
   getUser: () => dispatch(getUser()),
+  fetchCourses: () => dispatch(fetchCourses()),
+  fetchModules: () => dispatch(fetchModules()),
+  addmodule: (module) => dispatch(addmodule(module)),
 });
 
 class App extends Component {
@@ -47,8 +67,24 @@ class App extends Component {
   componentDidMount() {
     this.props.getUser();
     this.props.fetchIntake();
+    this.props.fetchCourses();
+    this.props.fetchModules();
   }
   render() {
+    // const ProtectedRoute = ({ component: Component, ...rest }) => (
+    //   <Route
+    //     {...rest}
+    //     render={(props) =>
+    //       this.props.auth.user !== null ? (
+    //         <Component {...props} />
+    //       ) : (
+    //         <Redirect
+    //           to={{ pathname: "/user/login", state: { from: props.location } }}
+    //         />
+    //       )
+    //     }
+    //   />
+    // );
     // const location = useLocation();
     return (
       <>
@@ -64,7 +100,12 @@ class App extends Component {
             exact
             path="/user/login"
             component={() => (
-              <Login login={this.props.login} user={this.props.auth.user} />
+              <Login
+                login={this.props.login}
+                user={this.props.auth.user}
+                isLoading={this.props.auth.isLoading}
+                success={this.props.auth.success}
+              />
             )}
           />
           <Route
@@ -74,6 +115,18 @@ class App extends Component {
               <RegisterUser
                 registerStudent={this.props.registerStudent}
                 intake={this.props.intake.intake}
+              />
+            )}
+          />
+          <Route exact path="/user/modules" component={() => <Modules />} />
+          <Route
+            exact
+            path="/user/addmodule"
+            component={() => (
+              <AddModule
+                intake={this.props.intake.intake}
+                addmodule={this.props.addmodule}
+                courses={this.props.course.courses}
               />
             )}
           />

@@ -137,7 +137,7 @@ const Navbar = ({ window, user }) => {
                 keepMounted: true, // Better open performance on mobile.
               }}
             >
-              {<DrawerMenu />}
+              {<DrawerMenu user={user} />}
             </Drawer>
           </Hidden>
           <Hidden xsDown implementation="css">
@@ -150,7 +150,7 @@ const Navbar = ({ window, user }) => {
               open
             >
               {/* {DrawerMenu} */}
-              <DrawerMenu />
+              <DrawerMenu user={user} />
             </Drawer>
             {/* )} */}
           </Hidden>

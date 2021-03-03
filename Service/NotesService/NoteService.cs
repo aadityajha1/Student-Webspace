@@ -58,9 +58,20 @@ namespace Student_Webspace.Service.NotesService
 
         }
 
-        public Task<ServiceResponse<List<Notes>>> GetNotesByModuleId(int moduleId)
+        public async Task<ServiceResponse<List<Notes>>> GetNotesByModuleId(int moduleId)
         {
-            throw new NotImplementedException();
+            ServiceResponse<List<Notes>> serviceResponse = new ServiceResponse<List<Notes>>();
+            var notes = await _db.Notes.Where(n => n.ModuleId == moduleId).ToListAsync();
+            if(notes != null)
+            {
+                serviceResponse.Data = notes;
+                serviceResponse.Success = true;
+                serviceResponse.Message = "Notes found for the given ModuleId";
+                return serviceResponse;
+            }
+            serviceResponse.Success = false;
+            serviceResponse.Message = "Notes are not available for this module";
+            return serviceResponse;
         }
     }
 }

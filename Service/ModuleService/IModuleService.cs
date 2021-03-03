@@ -18,5 +18,7 @@ namespace Student_Webspace.Service.ModuleService
         Task<ServiceResponse<Module>> EditModuleById(int id, Module module);
 
         Task<ServiceResponse<Module>> DeleteModuleById(int id);
+
+        Task<ServiceResponse<List<Module>>> GetByIntakeId(int id);
     }
 }

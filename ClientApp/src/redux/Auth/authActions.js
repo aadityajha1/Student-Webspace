@@ -46,11 +46,26 @@ export const login = (username, password) => (dispatch) => {
     .then(({ token, user, expiration }) => {
       localStorage.setItem("token", token);
       localStorage.setItem("user", user);
-      dispatch({
-        type: ActionTypes.LOGIN,
-        payload: user,
-        token,
-      });
+      fetch(`api/user/user?username=${user.userName}`)
+        .then((response) => {
+          if (response.ok) {
+            return response;
+          } else {
+            var error = new Error(
+              "Error" + response.status + ":" + response.statusText
+            );
+            error.response = response;
+            throw error;
+          }
+        })
+        .then((resp) => resp.json())
+        .then(({ data, success, message }) => {
+          dispatch({
+            type: ActionTypes.LOGIN,
+            payload: data,
+            token,
+          });
+        });
     })
     .catch((err) => dispatch(loginFailed(err)));
 };

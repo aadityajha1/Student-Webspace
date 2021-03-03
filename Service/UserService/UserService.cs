@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Student_Webspace.Authentication;
 using Student_Webspace.Dtos.Users;
 using Student_Webspace.Models;
 
@@ -37,7 +39,7 @@ namespace Student_Webspace.Service.UserService
         {
             _db = db;
         }
-        
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<ServiceResponse<UserDetails>> AddNewUser(UserDetails user)
         {
             
@@ -53,7 +55,7 @@ namespace Student_Webspace.Service.UserService
             return serviceResponse;
 
         }
-
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<ServiceResponse<List<UserDetails>>> DeleteAll()
         {   
             ServiceResponse<List<UserDetails>> serviceResponse = new ServiceResponse<List<UserDetails>>();
@@ -108,7 +110,7 @@ namespace Student_Webspace.Service.UserService
             serviceResponse.Message = "User Found Successfully";
             return serviceResponse;
         }
-
+        [Authorize]
         public async Task<ServiceResponse<UserDetails>> UpdateUserById(int id, UpdateUserDto updatedUser)
         {
             ServiceResponse<UserDetails> serviceResponse = new ServiceResponse<UserDetails>();
@@ -150,6 +152,23 @@ namespace Student_Webspace.Service.UserService
             
             await _db.SaveChangesAsync();
             serviceResponse.Data = user;
+            return serviceResponse;
+        }
+
+        
+        public async Task<ServiceResponse<UserDetails>> GetByUsername(string username)
+        {
+            ServiceResponse<UserDetails> serviceResponse = new ServiceResponse<UserDetails>();
+            var user = await _db.UserDetails.Where(u => u.Username == username).ToListAsync();
+            if (user == null)
+            {
+                serviceResponse.Success = true;
+                serviceResponse.Message = "User not found";
+                return serviceResponse;
+            }
+            serviceResponse.Data = user[0];
+            serviceResponse.Success = true;
+            serviceResponse.Message = "User details found successfully!";
             return serviceResponse;
         }
     }

@@ -72,7 +72,7 @@ namespace Student_Webspace
             services.AddScoped<IModuleService, ModuleService>();
 
             services.AddControllersWithViews();
-
+            services.AddControllers().AddNewtonsoftJson();
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

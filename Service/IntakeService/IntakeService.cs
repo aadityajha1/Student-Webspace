@@ -25,20 +25,48 @@ namespace Student_Webspace.Service.IntakeService
             
         }
 
-        public Task<ServiceResponse<List<Intake>>> DeleteAllIntakes()
+        public async Task<ServiceResponse<List<Intake>>> DeleteAllIntakes()
         {
-            throw new NotImplementedException();
+            ServiceResponse<List<Intake>> serviceResponse = new ServiceResponse<List<Intake>>();
+            var intakes = await _db.Intakes.ToListAsync();
+            if( intakes.Count > 0)
+            {
+                _db.Intakes.RemoveRange(intakes);
+                await _db.SaveChangesAsync();
+                serviceResponse.Data = intakes;
+                serviceResponse.Success = true;
+                serviceResponse.Message = "Deleted all intakes";
+                return serviceResponse;
+            }
+            serviceResponse.Success = false;
+            serviceResponse.Message = "No intakes found";
+            return serviceResponse;
         }
 
-        public Task<ServiceResponse<Intake>> DeleteIntakeById(int id)
+        public async Task<ServiceResponse<Intake>> DeleteIntakeById(int id)
         {
-            throw new NotImplementedException();
+            ServiceResponse<Intake> serviceResponse = new ServiceResponse<Intake>();
+            var intake = await _db.Intakes.FindAsync(id);
+            if (intake == null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "No Intake found for this Id";
+                return serviceResponse;
+            }
+            _db.Intakes.Remove(intake);
+            await _db.SaveChangesAsync();
+            serviceResponse.Success = true;
+            serviceResponse.Message = "Deleted Intake successfully";
+            serviceResponse.Data = intake;
+            return serviceResponse;
         }
 
         public async Task<ServiceResponse<List<Intake>>> GetAllIntakes()
         {
             ServiceResponse<List<Intake>> serviceResponse = new ServiceResponse<List<Intake>>();
             serviceResponse.Data = await _db.Intakes.ToListAsync();
+            serviceResponse.Success = true;
+            serviceResponse.Message = "Found All Intakes";
             return serviceResponse;
         }
 

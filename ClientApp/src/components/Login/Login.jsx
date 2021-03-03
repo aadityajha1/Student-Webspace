@@ -10,11 +10,13 @@ import {
   Checkbox,
   Box,
   FormControlLabel,
+  CircularProgress,
 } from "@material-ui/core";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import useStyles from "./loginStyle";
 import { LockOutlined } from "@material-ui/icons";
 import { Link, useHistory } from "react-router-dom";
+import { useEffect } from "react";
 
 function Copyright() {
   return (
@@ -29,7 +31,7 @@ function Copyright() {
   );
 }
 
-const Login = ({ login }) => {
+const Login = ({ login, isLoading, success }) => {
   const classes = useStyles();
   const methods = useForm();
   const history = useHistory();
@@ -37,9 +39,14 @@ const Login = ({ login }) => {
     if (data.username !== "" && data.password !== "") {
       console.log(data);
       login(data.username, data.password);
-      history.push("/user/dashboard");
     }
   };
+
+  useEffect(() => {
+    if (!isLoading && success) {
+      history.push("/user/dashboard");
+    }
+  }, [isLoading, success]);
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.toolbar} />
@@ -102,16 +109,29 @@ const Login = ({ login }) => {
               }
               label="Remember me"
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              // onClick={handleLogin}
-            >
-              Sign In
-            </Button>
+            {isLoading ? (
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                disabled
+              >
+                <CircularProgress />
+                Sign In
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                // onClick={handleLogin}
+              >
+                Sign In
+              </Button>
+            )}
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">

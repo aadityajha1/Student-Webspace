@@ -21,7 +21,7 @@ import {
 } from "@material-ui/icons";
 
 import { Link } from "react-router-dom";
-const DrawerMenu = ({ user }) => {
+const DrawerMenu = () => {
   const classes = useStyles();
   return (
     <div>
@@ -98,12 +98,7 @@ const DrawerMenu = ({ user }) => {
           </ListItemIcon>
           <ListItemText primary={"Class Routine"} />
         </ListItem>
-        <ListItem
-          button
-          style={{ color: "inherit" }}
-          component={Link}
-          to="/user/modules"
-        >
+        <ListItem button style={{ color: "inherit" }}>
           <ListItemIcon>
             <Notes className={classes.iconButton} />{" "}
           </ListItemIcon>
@@ -115,19 +110,17 @@ const DrawerMenu = ({ user }) => {
           </ListItemIcon>
           <ListItemText primary={"Academic Planner"} />
         </ListItem>
-        {user && user.user_role === "admin" ? (
-          <ListItem
-            button
-            style={{ color: "inherit" }}
-            component={Link}
-            to="/user/register"
-          >
-            <ListItemIcon>
-              <Today className={classes.iconButton} />{" "}
-            </ListItemIcon>
-            <ListItemText primary={"Register New Student"} />
-          </ListItem>
-        ) : null}
+        <ListItem
+          button
+          style={{ color: "inherit" }}
+          component={Link}
+          to="/user/register"
+        >
+          <ListItemIcon>
+            <Today className={classes.iconButton} />{" "}
+          </ListItemIcon>
+          <ListItemText primary={"Register New Student"} />
+        </ListItem>
         <ListItem button style={{ color: "inherit" }}>
           <ListItemIcon>
             <LibraryBooks className={classes.iconButton} />{" "}

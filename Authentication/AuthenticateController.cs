@@ -20,7 +20,12 @@ namespace Student_Webspace.Authentication
         private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration _configuration;
+        //private readonly ApplicationDbContext _db;
 
+        //public AuthenticateController(ApplicationDbContext db)
+        //{
+        //    _db = db;
+        //}
         public AuthenticateController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             this.userManager = userManager;
@@ -57,9 +62,10 @@ namespace Student_Webspace.Authentication
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     );
-
+                //var userFromDb =  _db.UserDetails.Where(u => u.Username == user.UserName);
                 return Ok(new
                 {
+                    user = user,
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     expiration = token.ValidTo
                 });

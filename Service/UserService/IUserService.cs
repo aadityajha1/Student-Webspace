@@ -19,5 +19,6 @@ namespace Student_Webspace.Service.UserService
         Task<ServiceResponse<UserDetails>> GetUserById(int id);
 
         Task<ServiceResponse<UserDetails>> UpdateUserById(int id, UpdateUserDto updateduser);
+        Task<ServiceResponse<UserDetails>> GetByUsername(string username);
     }
 }

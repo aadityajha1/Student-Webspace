@@ -81,6 +81,22 @@ namespace Student_Webspace.Service.ModuleService
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<List<Module>>> GetByIntakeId(int id)
+        {
+            ServiceResponse<List<Module>> serviceResponse = new ServiceResponse<List<Module>>();
+            List<Module> modules = await _db.Modules.Where(m => m.IntakeId == id).ToListAsync();
+            if (modules == null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "No Modules in this intake has been added yet.";
+                return serviceResponse;
+            }
+            serviceResponse.Data = modules;
+            serviceResponse.Message = "Modules found success";
+            serviceResponse.Success = true;
+            return serviceResponse;
+        }
+
         public async Task<ServiceResponse<Module>> GetModuleById(int id)
         {
             ServiceResponse<Module> serviceResponse = new ServiceResponse<Module>();

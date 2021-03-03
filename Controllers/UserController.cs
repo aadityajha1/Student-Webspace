@@ -87,5 +87,20 @@ namespace Student_Webspace.Controllers
                 return NotFound(response);
             }
         }
+
+        [HttpGet("user")]
+        public async Task<IActionResult> GetByUsername(string username)
+        {
+            var response = await _userService.GetByUsername(username);
+            if(response.Success == true)
+            {
+                return Ok(response);
+
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
     }
 }
