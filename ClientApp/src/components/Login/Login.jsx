@@ -14,7 +14,7 @@ import {
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import useStyles from "./loginStyle";
 import { LockOutlined } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 function Copyright() {
   return (
@@ -29,10 +29,17 @@ function Copyright() {
   );
 }
 
-const Login = () => {
+const Login = ({ login }) => {
   const classes = useStyles();
   const methods = useForm();
-  const onSubmit = (data) => console.log(data);
+  const history = useHistory();
+  const onSubmit = (data) => {
+    if (data.username !== "" && data.password !== "") {
+      console.log(data);
+      login(data.username, data.password);
+      history.push("/user/dashboard");
+    }
+  };
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.toolbar} />

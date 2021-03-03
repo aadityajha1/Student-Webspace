@@ -110,6 +110,17 @@ const DrawerMenu = () => {
           </ListItemIcon>
           <ListItemText primary={"Academic Planner"} />
         </ListItem>
+        <ListItem
+          button
+          style={{ color: "inherit" }}
+          component={Link}
+          to="/user/register"
+        >
+          <ListItemIcon>
+            <Today className={classes.iconButton} />{" "}
+          </ListItemIcon>
+          <ListItemText primary={"Register New Student"} />
+        </ListItem>
         <ListItem button style={{ color: "inherit" }}>
           <ListItemIcon>
             <LibraryBooks className={classes.iconButton} />{" "}

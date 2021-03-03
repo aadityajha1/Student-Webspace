@@ -11,6 +11,7 @@ import {
   Hidden,
   Menu,
   MenuItem,
+  Button,
 } from "@material-ui/core";
 
 import { MenuOutlined } from "@material-ui/icons";
@@ -20,7 +21,7 @@ import { Link, useLocation } from "react-router-dom";
 import DrawerMenu from "./Drawer";
 // import clsx from ''
 
-const Navbar = ({ window }) => {
+const Navbar = ({ window, user }) => {
   // const [isChecked, setIsChecked] = useState(false);
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -72,11 +73,25 @@ const Navbar = ({ window }) => {
               </Typography>
             </Grid>
             {location.pathname !== "/user/login" ? (
-              <Grid item>
-                <IconButton onClick={handleClick}>
-                  <Avatar src={"profile.png"} />
-                </IconButton>
-              </Grid>
+              user !== null ? (
+                <Grid item>
+                  <IconButton onClick={handleClick}>
+                    <Avatar src={"profile.png"} />
+                  </IconButton>
+                </Grid>
+              ) : (
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    component={Link}
+                    to="/user/login"
+                    style={{ color: "white" }}
+                  >
+                    Login
+                  </Button>
+                </Grid>
+              )
             ) : null}
             <Menu
               id="profile-menu"

@@ -6,16 +6,30 @@ import {
   TextField,
   Button,
   Typography,
+  Select,
+  MenuItem,
+  InputLabel,
 } from "@material-ui/core";
 
 import React from "react";
 import { FormProvider, useForm, Controller } from "react-hook-form";
 import useStyles from "./registerUserStyle";
 
-const RegiterUser = () => {
+const RegiterUser = ({ registerStudent, intake }) => {
   const classes = useStyles();
   const methods = useForm();
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    console.log(data);
+    registerStudent(
+      data.username,
+      data.password,
+      data.email,
+      data.user_role,
+      data.intakeid,
+      data.fullname,
+      data.gender
+    );
+  };
   return (
     <div className={classes.container}>
       <Container>
@@ -28,7 +42,7 @@ const RegiterUser = () => {
             </Grid>
             <Grid item xs={12} sm={6} justify="center">
               <Typography variant="h5" gutterBottom align="center">
-                Register New User
+                Register New Student
               </Typography>
               <Box mb={4} />
               <FormProvider {...methods}>
@@ -40,7 +54,7 @@ const RegiterUser = () => {
                     justify="center"
                     alignItems="center"
                   >
-                    <Grid item xs={12} sm={8}>
+                    <Grid item xs={12} sm={7}>
                       <Controller
                         name="fullname"
                         control={methods.control}
@@ -55,7 +69,7 @@ const RegiterUser = () => {
                         }
                       />
                     </Grid>
-                    <Grid item xs={12} sm={8}>
+                    <Grid item xs={12} sm={7}>
                       <Controller
                         name="username"
                         control={methods.control}
@@ -69,7 +83,7 @@ const RegiterUser = () => {
                         }
                       />
                     </Grid>
-                    <Grid item xs={12} sm={8}>
+                    <Grid item xs={12} sm={7}>
                       <Controller
                         name="email"
                         control={methods.control}
@@ -83,7 +97,7 @@ const RegiterUser = () => {
                         }
                       />
                     </Grid>
-                    <Grid item xs={12} sm={8}>
+                    <Grid item xs={12} sm={7}>
                       <Controller
                         name="password"
                         control={methods.control}
@@ -97,10 +111,51 @@ const RegiterUser = () => {
                         }
                       />
                     </Grid>
-                    <Grid item xs={12} sm={8}>
+                    <Grid item xs={12} sm={7}>
+                      <InputLabel htmlFor="user_role">
+                        Select User Role
+                      </InputLabel>
+                      <Controller
+                        name="user_role"
+                        control={methods.control}
+                        as={
+                          <Select id="user_role" fullWidth>
+                            <MenuItem value="student">Student</MenuItem>
+                            <MenuItem value="account">Accounts Staff</MenuItem>
+                            <MenuItem value="lecturer">Lecturer</MenuItem>
+                          </Select>
+                        }
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={7}>
+                      <InputLabel htmlFor="intake">Select Intake</InputLabel>
+                      <Controller
+                        name="intakeid"
+                        control={methods.control}
+                        as={
+                          <Select
+                            label="Select Intake"
+                            placeholder="Select Intake"
+                            id="intake"
+                            fullWidth
+                          >
+                            {intake.map((int) => (
+                              <MenuItem key={int.id} value={int.id}>
+                                {int.name}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        }
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={7}>
                       <Grid container spacing={4}>
                         <Grid item>
-                          <Button variant="contained" color="primary">
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                          >
                             Submit
                           </Button>
                         </Grid>

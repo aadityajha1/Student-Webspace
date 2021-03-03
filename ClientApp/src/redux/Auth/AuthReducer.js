@@ -5,7 +5,7 @@ export const Auth = (
     user: null,
     isLoading: true,
     success: true,
-    token: "",
+    token: localStorage.getItem("token"),
   },
   action
 ) => {
