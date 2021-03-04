@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import useStyles from "./navbarStyle";
 import {
   Hidden,
@@ -8,6 +8,11 @@ import {
   ListItemText,
   Grid,
   Divider,
+  Backdrop,
+  Modal,
+  Fade,
+  Box,
+  Button,
 } from "@material-ui/core";
 import {
   ExitToApp,
@@ -21,8 +26,10 @@ import {
 } from "@material-ui/icons";
 
 import { Link } from "react-router-dom";
-const DrawerMenu = ({ user }) => {
+const DrawerMenu = ({ user, logout }) => {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+
   return (
     <div>
       <Hidden xsDown>
@@ -81,7 +88,7 @@ const DrawerMenu = ({ user }) => {
         <ListItem
           button
           component={Link}
-          to={`/messages`}
+          // to={`/messages`}
           style={{ color: "inherit" }}
         >
           <ListItemIcon>
@@ -134,13 +141,55 @@ const DrawerMenu = ({ user }) => {
           </ListItemIcon>
           <ListItemText primary={"E-Library"} />
         </ListItem>
-        <ListItem button style={{ color: "inherit" }}>
+        <ListItem
+          button
+          style={{ color: "inherit" }}
+          onClick={() => setOpen(true)}
+        >
           <ListItemIcon>
             <ExitToApp className={classes.iconButton} />{" "}
           </ListItemIcon>
           <ListItemText primary={"Log Out"} />
         </ListItem>
       </List>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={open}
+        onClose={() => setOpen(false)}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <div className={classes.paper}>
+            <h2 id="transition-modal-title">LOGOUT</h2>
+            <p id="transition-modal-description">
+              Are you sure you want to logout?
+            </p>
+            <Box mt={3} />
+            <Button
+              type="button"
+              color="secondary"
+              variant="contained"
+              onClick={() => logout()}
+            >
+              Yes
+            </Button>
+            <Box mt={3} />
+            <Button
+              type="button"
+              variant="contained"
+              onClick={() => setOpen(false)}
+            >
+              Cancel
+            </Button>
+          </div>
+        </Fade>
+      </Modal>
     </div>
   );
 };

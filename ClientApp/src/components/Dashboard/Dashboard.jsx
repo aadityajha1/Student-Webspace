@@ -25,7 +25,7 @@ const Dashboard = (props) => {
       <div className={classes.toolbar} />
       <Box mt={5} />
       <Grid container justify="center" spacing={4}>
-        <Grid item xs={6} md={3}>
+        <Grid item xs={6} sm={4} md={3}>
           <Paper elevation={2}>
             <Grid
               container
@@ -64,7 +64,7 @@ const Dashboard = (props) => {
             </Grid>
           </Paper>
         </Grid>
-        <Grid item xs={6} md={3}>
+        <Grid item xs={6} sm={4} md={3}>
           <Paper elevation={2}>
             <Grid
               container
@@ -102,7 +102,7 @@ const Dashboard = (props) => {
             </Grid>
           </Paper>
         </Grid>
-        <Grid item xs={6} md={3}>
+        <Grid item xs={6} sm={4} lg={3}>
           <Paper elevation={2}>
             <Grid
               container
@@ -140,7 +140,7 @@ const Dashboard = (props) => {
             </Grid>
           </Paper>
         </Grid>
-        <Grid item xs={6} md={3}>
+        <Grid item xs={6} sm={4} md={3}>
           <Paper elevation={2}>
             <Grid
               container

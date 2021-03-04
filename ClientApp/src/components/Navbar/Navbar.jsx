@@ -21,7 +21,7 @@ import { Link, useLocation } from "react-router-dom";
 import DrawerMenu from "./Drawer";
 // import clsx from ''
 
-const Navbar = ({ window, user }) => {
+const Navbar = ({ window, user, logout }) => {
   // const [isChecked, setIsChecked] = useState(false);
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -137,7 +137,7 @@ const Navbar = ({ window, user }) => {
                 keepMounted: true, // Better open performance on mobile.
               }}
             >
-              {<DrawerMenu user={user} />}
+              {<DrawerMenu user={user} logout={logout} />}
             </Drawer>
           </Hidden>
           <Hidden xsDown implementation="css">
@@ -150,7 +150,7 @@ const Navbar = ({ window, user }) => {
               open
             >
               {/* {DrawerMenu} */}
-              <DrawerMenu user={user} />
+              <DrawerMenu user={user} logout={logout} />
             </Drawer>
             {/* )} */}
           </Hidden>

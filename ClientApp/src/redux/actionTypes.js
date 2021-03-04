@@ -23,3 +23,7 @@ export const FETCH_COURSES = "FETCH_COURSES";
 export const ADD_COURSES = "ADD_COURSES";
 export const COURSES_LOADING = "COURSES_LOADING";
 export const COURSES_FAILED = "COURSES_FAILED";
+export const LOGOUT = "LOGOUT";
+export const SUCCESS_FALSE = "SUCCESS_FALSE";
+export const DELETE_MODULE = "DELETE_MODULE";
+export const GET_ALL_USERS = "GET_ALL_USERS";

@@ -162,7 +162,7 @@ namespace Student_Webspace.Service.UserService
             var user = await _db.UserDetails.Where(u => u.Username == username).ToListAsync();
             if (user == null)
             {
-                serviceResponse.Success = true;
+                serviceResponse.Success = false;
                 serviceResponse.Message = "User not found";
                 return serviceResponse;
             }

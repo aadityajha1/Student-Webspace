@@ -60,8 +60,18 @@ export default class NavMenu extends Component {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/dashboard">
-                    Dashboard
+                  <NavLink tag={Link} className="text-dark" to="/courses">
+                    Courses
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} className="text-dark" to="/about">
+                    About Us
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} className="text-dark" to="/contact">
+                    Contact Us
                   </NavLink>
                 </NavItem>
                 <NavItem className="ml-4">

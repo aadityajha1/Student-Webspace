@@ -17,9 +17,11 @@ namespace Student_Webspace.Service.ModuleService
         public async Task<ServiceResponse<Module>> CreateModule(Module module)
         {
             ServiceResponse<Module> serviceResponse = new ServiceResponse<Module>();
-            await _db.Modules.AddAsync(module);
+           var moduleAdded = await _db.Modules.AddAsync(module);
+           await _db.SaveChangesAsync();
             serviceResponse.Data = module;
             serviceResponse.Message = "Module added Successfully";
+            serviceResponse.Success = true;
             return serviceResponse;
         }
 

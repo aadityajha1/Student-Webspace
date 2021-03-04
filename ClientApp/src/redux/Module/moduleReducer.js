@@ -37,7 +37,28 @@ export const Module = (
 
     case ActionTypes.EDIT_MODULE:
       // const index =
+
       return { ...state, isLoading: false };
+
+    case ActionTypes.GET_ALL_MODULES:
+      return {
+        ...state,
+        isLoading: false,
+        modules: action.payload,
+        success: true,
+      };
+
+    case ActionTypes.DELETE_MODULE:
+      const newmodules = state.modules.filter(
+        (module) => module.id !== action.payload.id
+      );
+      return {
+        ...state,
+        modules: newmodules,
+        isLoading: false,
+        success: true,
+        message: action.message,
+      };
     default:
       return state;
   }

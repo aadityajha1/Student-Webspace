@@ -1,9 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  
-  grey,
-  
-} from "@material-ui/core/colors";
+import { grey } from "@material-ui/core/colors";
 const drawerWidth = 240;
 export default makeStyles((theme) => ({
   root: {
@@ -47,13 +43,13 @@ export default makeStyles((theme) => ({
     position: "absolute",
     backgroundColor: "#F1545E",
     color: "white",
-    fontWeight: "bold"
+    fontWeight: "bold",
     // backgroundColor: deepOrange[50],
   },
   drawerPaperMessages: {
     width: drawerWidth + 100,
     position: "absolute",
-    
+
     // backgroundColor: deepOrange[50],
   },
   content: {
@@ -78,4 +74,15 @@ export default makeStyles((theme) => ({
   //   toolbar: {
   //     overflow: "auto",
   //   },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
 }));

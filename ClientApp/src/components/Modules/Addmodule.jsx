@@ -12,12 +12,16 @@ import {
   Button,
 } from "@material-ui/core";
 import { useForm, Controller, FormProvider } from "react-hook-form";
+import { useLocation } from "react-router-dom";
 // import { Button } from "bootstrap";
 
 const AddModule = (props) => {
   const classes = useStyles();
   const methods = useForm();
+  const location = useLocation();
   const onSubmit = (data) => {
+    const match = location.pathname.split("/")[2];
+
     // e.preventDefault();
     console.log(data);
     const module = {
@@ -27,7 +31,12 @@ const AddModule = (props) => {
       semester: data.semester,
     };
     console.log(module);
-    props.addmodule(module);
+    if (match === "edit") {
+      const id = location.pathname.split("/").pop();
+      props.editModule(id, module);
+    } else {
+      props.addmodule(module);
+    }
   };
   return (
     <div>

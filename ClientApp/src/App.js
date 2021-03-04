@@ -19,9 +19,21 @@ import {
 import NavMenu from "./components/NavMenu";
 // import
 import "./custom.css";
-import { login, registerStudent, getUser } from "./redux/Auth/authActions";
+import {
+  login,
+  registerStudent,
+  getUser,
+  logout,
+  successfalse,
+  getAllusers,
+} from "./redux/Auth/authActions";
 import { fetchIntake } from "./redux/Intake/intakeActions";
-import { fetchModules, addmodule } from "./redux/Module/moduleActions";
+import {
+  fetchModules,
+  addmodule,
+  deleteModule,
+  editModule,
+} from "./redux/Module/moduleActions";
 import { fetchCourses } from "./redux/Course/courseActions";
 
 const mapStateToProps = (state) => {
@@ -60,6 +72,11 @@ const mapdispatchToProps = (dispatch) => ({
   fetchCourses: () => dispatch(fetchCourses()),
   fetchModules: () => dispatch(fetchModules()),
   addmodule: (module) => dispatch(addmodule(module)),
+  logout: () => dispatch(logout()),
+  successfalse: () => dispatch(successfalse()),
+  deleteModule: (id) => dispatch(deleteModule(id)),
+  editModule: (id, module) => dispatch(editModule(id, module)),
+  getAllusers: () => dispatch(getAllusers()),
 });
 
 class App extends Component {
@@ -69,33 +86,34 @@ class App extends Component {
     this.props.fetchIntake();
     this.props.fetchCourses();
     this.props.fetchModules();
+    this.props.getAllusers();
   }
   render() {
-    // const ProtectedRoute = ({ component: Component, ...rest }) => (
-    //   <Route
-    //     {...rest}
-    //     render={(props) =>
-    //       this.props.auth.user !== null ? (
-    //         <Component {...props} />
-    //       ) : (
-    //         <Redirect
-    //           to={{ pathname: "/user/login", state: { from: props.location } }}
-    //         />
-    //       )
-    //     }
-    //   />
-    // );
-    // const location = useLocation();
+    const ProtectedRoute = ({ component: Component, ...rest }) => (
+      <Route
+        {...rest}
+        render={(props) =>
+          this.props.auth.user !== null ? (
+            <Component {...props} />
+          ) : (
+            <Redirect
+              to={{ pathname: "/user/login", state: { from: props.location } }}
+            />
+          )
+        }
+      />
+    );
+
     return (
       <>
         {window.location.pathname.split("/")[1] === "user" ? (
-          <Navbar user={this.props.auth.user} />
+          <Navbar user={this.props.auth.user} logout={this.props.logout} />
         ) : (
           <NavMenu />
         )}
         <Switch location={this.props.location}>
           <Route exact path="/" component={Home} />
-          <Route exact path="/user/dashboard" component={Dashboard} />
+          <ProtectedRoute exact path="/user/dashboard" component={Dashboard} />
           <Route
             exact
             path="/user/login"
@@ -115,11 +133,27 @@ class App extends Component {
               <RegisterUser
                 registerStudent={this.props.registerStudent}
                 intake={this.props.intake.intake}
+                isLoading={this.props.auth.isLoading}
+                success={this.props.auth.success}
+                message={this.props.auth.message}
+                errMess={this.props.auth.errMess}
+                successfalse={this.props.successfalse}
               />
             )}
           />
-          <Route exact path="/user/modules" component={() => <Modules />} />
-          <Route
+          <ProtectedRoute
+            exact
+            path="/user/modules"
+            component={() => (
+              <Modules
+                user={this.props.auth.user}
+                modules={this.props.module.modules}
+                deleteModule={this.props.deleteModule}
+                message={this.props.module.message}
+              />
+            )}
+          />
+          <ProtectedRoute
             exact
             path="/user/addmodule"
             component={() => (
@@ -127,6 +161,19 @@ class App extends Component {
                 intake={this.props.intake.intake}
                 addmodule={this.props.addmodule}
                 courses={this.props.course.courses}
+                editModule={this.props.editModule}
+              />
+            )}
+          />
+          <ProtectedRoute
+            exact
+            path="/user/module/edit/:id"
+            component={() => (
+              <AddModule
+                intake={this.props.intake.intake}
+                addmodule={this.props.addmodule}
+                courses={this.props.course.courses}
+                editModule={this.props.editModule}
               />
             )}
           />

@@ -5,9 +5,9 @@ export const Loading = () => ({
   type: ActionTypes.LOGIN_LOADING,
 });
 
-export const loginFailed = (errMess) => ({
+export const loginFailed = ({ status, title }) => ({
   type: ActionTypes.LOGIN_FAILED,
-  payload: errMess,
+  payload: status + " " + title,
 });
 
 export const registerFailed = (errMess) => ({
@@ -45,7 +45,7 @@ export const login = (username, password) => (dispatch) => {
     .then((resp) => resp.json())
     .then(({ token, user, expiration }) => {
       localStorage.setItem("token", token);
-      localStorage.setItem("user", user);
+      localStorage.setItem("user", user.userName);
       fetch(`api/user/user?username=${user.userName}`)
         .then((response) => {
           if (response.ok) {
@@ -65,9 +65,10 @@ export const login = (username, password) => (dispatch) => {
             payload: data,
             token,
           });
-        });
+        })
+        .catch((err) => dispatch(loginFailed(err.message)));
     })
-    .catch((err) => dispatch(loginFailed(err)));
+    .catch(({ status, title }) => dispatch(loginFailed({ status, title })));
 };
 
 export const registerStudent = (
@@ -137,23 +138,23 @@ export const registerStudent = (
           }
         })
         .then((resp) => resp.json())
-        .then((resp) => console.log(resp))
+        .then(({ data, message, success }) => {
+          dispatch({
+            type: ActionTypes.REGISTER_STUDENT,
+            payload: data,
+            message,
+            success,
+          });
+        })
         .catch((err) => dispatch(registerFailed(err)));
     })
-    .catch((err) => dispatch(registerFailed(err)));
+    .catch(({ message, status, token }) => dispatch(registerFailed(message)));
 };
 
 export const getUser = () => (dispatch) => {
-  const username = localStorage.getItem("user").userName;
-
-  return fetch(`api/user/byusername`, {
-    body: username,
-    method: "GET",
-    headers: {
-      "Content-type": "application/json",
-    },
-    credentials: "include",
-  })
+  const username = localStorage.getItem("user");
+  const token = localStorage.getItem("token");
+  return fetch(`api/user/user?username=${username}`)
     .then((response) => {
       if (response.ok) {
         return response;
@@ -166,11 +167,54 @@ export const getUser = () => (dispatch) => {
       }
     })
     .then((resp) => resp.json())
-    .then(({ data }) =>
+    .then(({ data, success, message }) => {
       dispatch({
-        type: ActionTypes.GET_USER,
+        type: ActionTypes.LOGIN,
         payload: data,
-      })
-    )
-    .catch((err) => dispatch(loginFailed(err)));
+        token,
+      });
+    })
+    .catch((err) => dispatch(loginFailed(err.message)));
+};
+
+export const logout = () => (dispatch) => {
+  dispatch(Loading());
+
+  return dispatch({
+    type: ActionTypes.LOGOUT,
+  });
+};
+
+export const successfalse = () => (dispatch) => {
+  dispatch({
+    type: ActionTypes.SUCCESS_FALSE,
+  });
+};
+
+export const getAllusers = () => (dispatch) => {
+  dispatch({
+    type: ActionTypes.LOGIN_LOADING,
+  });
+
+  return fetch("api/user")
+    .then((response) => {
+      if (response.ok) {
+        return response;
+      } else {
+        var error = new Error(
+          "Error" + response.status + ":" + response.statusText
+        );
+        error.response = response;
+        throw error;
+      }
+    })
+    .then((resp) => resp.json())
+    .then(({ data, success, message }) => {
+      dispatch({
+        type: ActionTypes.GET_ALL_USERS,
+        payload: data,
+        success,
+        message,
+      });
+    });
 };
