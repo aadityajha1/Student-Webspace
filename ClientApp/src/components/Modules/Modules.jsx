@@ -12,6 +12,9 @@ import {
   Menu,
   MenuItem,
   Snackbar,
+  Modal,
+  Backdrop,
+  Fade,
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { MoreVert } from "@material-ui/icons";
@@ -24,6 +27,7 @@ const Modules = (props) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   useEffect(() => {
     if (props.message) {
       setOpen(true);
@@ -52,6 +56,7 @@ const Modules = (props) => {
           </Button>
         ) : null}
         <Box mb={5} />
+
         <Grid container spacing={4}>
           {props.modules.map((module) => (
             <Grid item xs={12} md={4} key={module.id}>
@@ -100,6 +105,44 @@ const Modules = (props) => {
                             <MoreVert />
                           </IconButton>
                         </CardActions>
+                        <Modal
+                          aria-labelledby="transition-modal-title"
+                          aria-describedby="transition-modal-description"
+                          className={classes.modal}
+                          open={modalOpen}
+                          onClose={() => setModalOpen(false)}
+                          closeAfterTransition
+                          BackdropComponent={Backdrop}
+                          BackdropProps={{
+                            timeout: 500,
+                          }}
+                        >
+                          <Fade in={modalOpen}>
+                            <div className={classes.modalpaper}>
+                              <h4 id="transition-modal-title">DELETE</h4>
+                              <p id="transition-modal-description">
+                                Are you sure you want to delete this Module?
+                              </p>
+                              <Box mt={3} />
+                              <Button
+                                type="button"
+                                color="primary"
+                                variant="contained"
+                                onClick={() => props.deleteModule(module.id)}
+                              >
+                                Yes
+                              </Button>
+                              <Box mt={3} />
+                              <Button
+                                type="button"
+                                variant="contained"
+                                onClick={() => setModalOpen(false)}
+                              >
+                                Cancel
+                              </Button>
+                            </div>
+                          </Fade>
+                        </Modal>
                       </Grid>
                     ) : null}
                   </Grid>
@@ -123,10 +166,7 @@ const Modules = (props) => {
                   >
                     <MenuItem>Edit</MenuItem>
                   </Link>
-                  <MenuItem
-                    button
-                    onClick={() => props.deleteModule(module.id)}
-                  >
+                  <MenuItem button onClick={() => setModalOpen(true)}>
                     Delete
                   </MenuItem>
                 </Menu>
@@ -137,6 +177,7 @@ const Modules = (props) => {
         <Snackbar
           open={open}
           autoHideDuration={6000}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
           onClose={() => {
             // successfalse();
             setOpen(false);

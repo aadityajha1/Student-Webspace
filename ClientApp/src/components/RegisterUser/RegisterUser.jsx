@@ -125,6 +125,7 @@ const RegiterUser = ({
                           <TextField
                             autoFocus
                             fullWidth
+                            required
                             variant="outlined"
                             label="Full Name"
                             placeholder="Enter Full Name"
@@ -141,6 +142,7 @@ const RegiterUser = ({
                         as={
                           <TextField
                             fullWidth
+                            required
                             label="Username"
                             placeholder="Enter Username"
                             variant="outlined"
@@ -161,6 +163,7 @@ const RegiterUser = ({
                         as={
                           <TextField
                             fullWidth
+                            required
                             label="Email"
                             placeholder="Enter Email"
                             variant="outlined"
@@ -181,6 +184,7 @@ const RegiterUser = ({
                         as={
                           <TextField
                             fullWidth
+                            required
                             label="Password"
                             placeholder="Enter Password"
                             variant="outlined"

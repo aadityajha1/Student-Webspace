@@ -19,12 +19,23 @@ export default makeStyles((theme) => ({
     alignItems: "center",
     width: "100%",
   },
-  root: {
-    maxWidth: 345,
-  },
+  // root: {
+  //   maxWidth: 345,
+  // },
   media: {
     height: 0,
     paddingTop: "45%", // 16:9
     border: "1px solid black",
+  },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modalpaper: {
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
   },
 }));

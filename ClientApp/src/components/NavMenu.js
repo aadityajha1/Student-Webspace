@@ -9,7 +9,7 @@ import {
   NavItem,
   NavLink,
 } from "reactstrap";
-import { Button } from "@material-ui/core";
+import { Button, Hidden } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import "./NavMenu.css";
 
@@ -91,7 +91,7 @@ export default class NavMenu extends Component {
                     LOGIN
                   </Button>
                 </NavItem>
-                <NavItem className="ml-2">
+                {/* <NavItem className="ml-2">
                   <Button
                     variant="contained"
                     disableElevation
@@ -109,7 +109,7 @@ export default class NavMenu extends Component {
                   >
                     Register
                   </Button>
-                </NavItem>
+                </NavItem> */}
               </ul>
               <Nav className="ml-auto"></Nav>
             </Collapse>

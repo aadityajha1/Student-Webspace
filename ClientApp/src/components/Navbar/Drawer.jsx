@@ -78,13 +78,13 @@ const DrawerMenu = ({ user, logout }) => {
           </ListItemIcon>
           <ListItemText primary={"Results"} />
         </ListItem>
-        <ListItem button style={{ color: "inherit" }}>
+        {/* <ListItem button style={{ color: "inherit" }}>
           <ListItemIcon>
             <Assignment className={classes.iconButton} />{" "}
           </ListItemIcon>
           <ListItemText primary={"Assignments"} />
         </ListItem>
-        {/* {rooms.length ? ( */}
+        
         <ListItem
           button
           component={Link}
@@ -95,7 +95,7 @@ const DrawerMenu = ({ user, logout }) => {
             <ErrorOutline className={classes.iconButton} />
           </ListItemIcon>
           <ListItemText primary={"Notices"} />
-        </ListItem>
+        </ListItem> */}
         {/* ) : (
           "Start Messaging"
         )} */}

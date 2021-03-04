@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button } from "reactstrap";
 // import
-
+import { Hidden } from "@material-ui/core";
 export class Home extends Component {
   static displayName = Home.name;
 
@@ -9,7 +9,7 @@ export class Home extends Component {
     return (
       <div className="container">
         <div className="row align-items-center">
-          <div className="col-4">
+          <div className="col-12 col-sm-4">
             <h1 className="display-4"> Help Student Reach Their Potential</h1>
             <p style={{ color: "#626262", textAlign: "justify" }}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -17,13 +17,15 @@ export class Home extends Component {
               Molestie nunc non blandit massa.{" "}
             </p>
           </div>
-          <div className="col-8">
-            <img src={"banner.webp"} height="600" width="840" />
-          </div>
+          <Hidden smDown>
+            <div className="col-8">
+              <img src={"banner.webp"} height="600" width="840" />
+            </div>
+          </Hidden>
         </div>
         <div className="row my-5">
           <div
-            className="col-md-4 "
+            className="col-12 col-md-4 "
             style={{
               justifyContent: "center",
               alignContent: "center",
@@ -64,7 +66,7 @@ export class Home extends Component {
           {/* </div> */}
 
           <div
-            className="col-md-4 "
+            className="col-12 col-md-4 "
             style={{
               justifyContent: "center",
               alignContent: "center",
@@ -103,7 +105,7 @@ export class Home extends Component {
             </div>
           </div>
           <div
-            className="col-md-4 "
+            className="col-12 col-md-4 "
             style={{
               justifyContent: "center",
               alignContent: "center",
