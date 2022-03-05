@@ -30,7 +30,7 @@ export const Module = (
       };
 
     case ActionTypes.MODULE_LOADING:
-      return { ...state, isLoading: true };
+      return { ...state, isLoading: true, success: false, message: null };
 
     case ActionTypes.MODULE_FAILED:
       return { ...state, errMess: action.payload, success: false };

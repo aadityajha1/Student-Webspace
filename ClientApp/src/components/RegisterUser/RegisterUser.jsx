@@ -268,6 +268,7 @@ const RegiterUser = ({
         <Snackbar
           open={open}
           autoHideDuration={6000}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
           onClose={() => {
             successfalse();
             setOpen(false);

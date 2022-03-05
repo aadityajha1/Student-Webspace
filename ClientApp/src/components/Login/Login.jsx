@@ -11,12 +11,15 @@ import {
   Box,
   FormControlLabel,
   CircularProgress,
+  Snackbar,
 } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import useStyles from "./loginStyle";
 import { LockOutlined } from "@material-ui/icons";
 import { Link, useHistory } from "react-router-dom";
 import { useEffect } from "react";
+import { useState } from "react";
 
 function Copyright() {
   return (
@@ -31,17 +34,25 @@ function Copyright() {
   );
 }
 
-const Login = ({ login, isLoading, success }) => {
+const Login = ({ login, isLoading, success, errMess }) => {
   const classes = useStyles();
   const methods = useForm();
   const history = useHistory();
+  const [open, setOpen] = useState(false);
   const onSubmit = (data) => {
     if (data.username !== "" && data.password !== "") {
       console.log(data);
       login(data.username, data.password);
+    } else {
+      setOpen(true);
     }
   };
-
+  const [error, setError] = useState(false);
+  useEffect(() => {
+    if (!success && errMess) {
+      setError(true);
+    }
+  }, [errMess, success]);
   useEffect(() => {
     if (!isLoading && success) {
       history.push("/user/dashboard");
@@ -150,6 +161,42 @@ const Login = ({ login, isLoading, success }) => {
       <Box mt={8}>
         <Copyright />
       </Box>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        onClose={() => {
+          // successfalse();
+          setOpen(false);
+        }}
+      >
+        <Alert
+          onClose={() => setOpen(false)}
+          severity="error"
+          elevation={6}
+          variant="filled"
+        >
+          PLease fill all details
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={error}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        onClose={() => {
+          // successfalse();
+          setError(false);
+        }}
+      >
+        <Alert
+          onClose={() => setError(false)}
+          severity="error"
+          elevation={6}
+          variant="filled"
+        >
+          {errMess}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

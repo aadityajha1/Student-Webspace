@@ -123,6 +123,7 @@ class App extends Component {
                 user={this.props.auth.user}
                 isLoading={this.props.auth.isLoading}
                 success={this.props.auth.success}
+                errMess={this.props.auth.errMess}
               />
             )}
           />

@@ -5,9 +5,9 @@ export const Loading = () => ({
   type: ActionTypes.LOGIN_LOADING,
 });
 
-export const loginFailed = ({ status, title }) => ({
+export const loginFailed = (errMess) => ({
   type: ActionTypes.LOGIN_FAILED,
-  payload: status + " " + title,
+  payload: errMess.message,
 });
 
 export const registerFailed = (errMess) => ({
@@ -68,7 +68,7 @@ export const login = (username, password) => (dispatch) => {
         })
         .catch((err) => dispatch(loginFailed(err.message)));
     })
-    .catch(({ status, title }) => dispatch(loginFailed({ status, title })));
+    .catch((errMess) => dispatch(loginFailed(errMess)));
 };
 
 export const registerStudent = (
